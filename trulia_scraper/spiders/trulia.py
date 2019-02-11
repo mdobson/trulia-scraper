@@ -15,12 +15,12 @@ class TruliaSpider(scrapy.Spider):
     custom_settings = {'FEED_URI': os.path.join(os.path.dirname(closest_scrapy_cfg()), 'data/data_for_sale_%(state)s_%(city)s_%(time)s.jl'), 
                        'FEED_FORMAT': 'jsonlines'}
 
-    def __init__(self, state='CA', city='San_Francisco', *args, **kwargs):
+    def __init__(self, state='MI', city='Detroit', *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.state = state
         self.city = city
-        self.start_urls = ['http://trulia.com/{state}/{city}'.format(state=state, city=city)]
-        self.le = LinkExtractor(allow=r'^https://www.trulia.com/property')
+        self.start_urls = ['https://www.trulia.com/for_sale/{city},{state}/Land_Contract_keyword/'.format(state=state, city=city)]
+        self.le = LinkExtractor(allow=r'^https://www.trulia.com/p')
 
     def parse(self, response):
         N = self.get_number_of_pages_to_scrape(response)
